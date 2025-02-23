@@ -1,7 +1,7 @@
 ﻿ namespace Catalog.API.Products.Create
 {
-    public record CreateProductRequest(string Name, IEnumerable<string> Categories,string Description,decimal Price);
-    public record CreateProductResponse(Guid Id);
+    internal record CreateProductRequest(string Name, IEnumerable<string> Categories,string Description,decimal Price);
+    internal record CreateProductResponse(Guid Id);
     public class CreateProductEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)

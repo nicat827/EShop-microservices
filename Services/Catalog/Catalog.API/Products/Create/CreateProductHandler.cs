@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.Create
 {
-    internal record CreateProductCommand(string Name, IEnumerable<string> Categories, string Description, decimal Price) 
+    internal record CreateProductCommand(string Name, List<string> Categories, string Description, decimal Price) 
         : ICommand<CreateProductResult>;
     internal record CreateProductResult(Guid Id);
 
