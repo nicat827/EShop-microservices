@@ -1,8 +1,19 @@
 ﻿namespace Catalog.API.Products.Create
 {
-    internal record CreateProductCommand(string Name, List<string> Categories, string Description, decimal Price) 
+    public record CreateProductCommand(string Name, List<string> Categories, string Description, decimal Price) 
         : ICommand<CreateProductResult>;
     internal record CreateProductResult(Guid Id);
+
+    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+    {
+        public CreateProductCommandValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required!");
+            RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required!");
+            RuleFor(x => x.Price).GreaterThan(0);
+            RuleFor(x => x.Categories).NotEmpty();
+        }
+    }
 
     internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
