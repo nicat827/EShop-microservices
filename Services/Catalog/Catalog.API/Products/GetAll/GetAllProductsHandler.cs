@@ -1,15 +1,15 @@
-﻿namespace Catalog.API.Products.GetAll
+﻿using Marten.Pagination;
+
+namespace Catalog.API.Products.GetAll
 {
-    internal record GetAllProductsQuery() : IQuery<GetAllProductsResult>;
+    internal record GetAllProductsQuery(int? PageNumber = 1, int? PageSize = 10) : IQuery<GetAllProductsResult>;
     internal record GetAllProductsResult(IEnumerable<Product> Products);
-    internal class GetAllProductsHandler(IDocumentSession session, ILogger<GetAllProductsHandler> logger) 
+    internal class GetAllProductsHandler(IDocumentSession session) 
         : IQueryHandler<GetAllProductsQuery, GetAllProductsResult>
     {
         public async Task<GetAllProductsResult> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Getting all products with {@Query}", query);
-            var res = await session.Query<Product>().ToListAsync(cancellationToken);
-            logger.LogInformation("Response in get all products: " + res.ToString());
+            var res = await session.Query<Product>().ToPagedListAsync(query.PageNumber ?? 1, query.PageSize ?? 10,cancellationToken);
             return new GetAllProductsResult(res);
         }
     }
