@@ -9,7 +9,7 @@
         {
             logger.LogInformation("Getting product by id with {@Query}", request);
             var product = await session.LoadAsync<Product>(request.Id, cancellationToken)
-                ?? throw new ProductNotFoundException();
+                ?? throw new ProductNotFoundException(request.Id);
             logger.LogInformation("Response in get product by id: " + product.ToString());
             return new GetProductByIdResult(product);
         }

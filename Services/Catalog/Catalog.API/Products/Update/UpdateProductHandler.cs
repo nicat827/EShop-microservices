@@ -9,7 +9,7 @@ namespace Catalog.API.Products.Update
         {
             logger.LogInformation("Updating product with {@Command}", command);
             Product product = await session.LoadAsync<Product>(command.Id, cancellationToken)
-                ?? throw new ProductNotFoundException();
+                ?? throw new ProductNotFoundException(command.Id);
 
             product.Name = command.Name;
             product.Description = command.Description;
