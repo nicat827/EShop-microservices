@@ -28,7 +28,7 @@ builder.Services.AddHealthChecks()
 var app = builder.Build();
 
 app.MapCarter();
-
+app.UseHttpsRedirection();
 app.UseExceptionHandler(opt => { });
 
 app.UseHealthChecks("/health", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse});
