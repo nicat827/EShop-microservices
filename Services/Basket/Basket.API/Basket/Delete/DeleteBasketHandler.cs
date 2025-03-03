@@ -8,11 +8,12 @@
             RuleFor(x => x.UserName).NotEmpty().WithMessage("UserName is required!");
         }
     }
-    internal class DeleteBasketHandler : ICommandHandler<DeleteBasketCommand>
+    internal class DeleteBasketHandler(IBasketRepository repository) : ICommandHandler<DeleteBasketCommand>
     {
         public async Task<Unit> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await repository.DeleteBasketAsync(request.UserName);
+            return Unit.Value;
         }
     }
 }

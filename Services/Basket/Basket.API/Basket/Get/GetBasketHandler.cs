@@ -2,11 +2,12 @@
 {
     internal record GetBasketQuery(string UserName) : IQuery<GetBasketResult>;
     internal record GetBasketResult(ShoppingCart Cart);
-    internal class GetBasketHandler : IQueryHandler<GetBasketQuery, GetBasketResult>
+    internal class GetBasketHandler(IBasketRepository repository) : IQueryHandler<GetBasketQuery, GetBasketResult>
     {
         public async Task<GetBasketResult> Handle(GetBasketQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var basket = await repository.GetBasketAsync(request.UserName, cancellationToken);
+            return new GetBasketResult(basket);
         }
     }
 }

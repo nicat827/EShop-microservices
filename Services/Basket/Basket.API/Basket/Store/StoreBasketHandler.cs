@@ -9,11 +9,12 @@
             RuleFor(x => x.Cart.UserName).NotEmpty().WithMessage("UserName is required");
         }
     }
-    internal class StoreBasketHandler : ICommandHandler<StoreBasketCommand>
+    internal class StoreBasketHandler(IBasketRepository repository) : ICommandHandler<StoreBasketCommand>
     {
-        public async Task<Unit> Handle(StoreBasketCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await repository.StoreBasketAsync(command.Cart, cancellationToken);
+            return Unit.Value;
         }
     }
 }
