@@ -12,7 +12,7 @@
     {
         public async Task<Unit> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
         {
-            await repository.DeleteBasketAsync(request.UserName);
+            await repository.DeleteBasketAsync(request.UserName, cancellationToken);
             return Unit.Value;
         }
     }
