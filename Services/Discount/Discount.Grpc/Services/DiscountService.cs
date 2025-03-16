@@ -14,6 +14,8 @@ namespace Discount.Grpc.Services
 
         public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
         {
+            if (request is null) throw new RpcException(new Status(StatusCode.InvalidArgument, "Request is required"));
+
             if (await _context.Coupons.AnyAsync(c => c.ProductName == request.ProductName))
                 throw new RpcException(new Status(StatusCode.AlreadyExists, "Discount already exists"));
             Coupon newCoupon = new Coupon
