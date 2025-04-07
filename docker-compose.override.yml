@@ -47,6 +47,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+    depends_on:
+      - basketdb
+      - distributedcache
+      - discount.grpc
     ports:
       - "6061:6061"
     volumes:
